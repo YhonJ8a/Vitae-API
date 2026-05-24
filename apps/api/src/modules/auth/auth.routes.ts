@@ -3,11 +3,12 @@ import passport from "./auth.passport";
 import { register, login, refresh, logout } from "./auth.controller";
 import { setAuthCookies } from "./auth.utils";
 import { env } from "../../config/env";
+import { authRateLimit } from "../../common/middlewares/rateLimit.middleware";
 
 const router = Router();
 
-router.post("/register", register);
-router.post("/login", login);
+router.post("/register", authRateLimit, register);
+router.post("/login", authRateLimit, login);
 router.post("/refresh", refresh);
 router.post("/logout", logout);
 
