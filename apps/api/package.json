@@ -5,6 +5,8 @@
     "private": true,
     "scripts": {
         "dev": "ts-node-dev --respawn src/main.ts",
+        "prisma:generate": "prisma generate",
+        "prebuild": "npm run prisma:generate",
         "build": "tsc",
         "start": "node dist/main.js",
         "lint": "eslint src --ext .ts",
