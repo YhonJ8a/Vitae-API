@@ -1,0 +1,132 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+}
+
+model User {
+    id        String   @id @default(uuid())
+    email     String   @unique
+    password  String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    profile   Profile?
+    sessions  Session[]
+    queryLogs QueryLog[]
+}
+
+model Profile {
+    id        String   @id @default(uuid())
+    userId    String   @unique
+    firstName String
+    lastName  String
+    bio       String?
+    location  String?
+    phone     String?
+    website   String?
+    updatedAt DateTime @updatedAt
+
+    user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+    education  Education[]
+    experience Experience[]
+    companies  Company[]
+    skills     Skill[]
+    projects   Project[]
+}
+
+model Education {
+    id          String    @id @default(uuid())
+    profileId   String
+    institution String
+    degree      String
+    field       String
+    startDate   DateTime
+    endDate     DateTime?
+    current     Boolean   @default(false)
+    description String?
+
+    profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+}
+
+model Experience {
+    id          String    @id @default(uuid())
+    profileId   String
+    title       String
+    company     String
+    location    String?
+    startDate   DateTime
+    endDate     DateTime?
+    current     Boolean   @default(false)
+    description String?
+
+    profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+}
+
+model Company {
+    id          String    @id @default(uuid())
+    profileId   String
+    name        String
+    role        String
+    startDate   DateTime
+    endDate     DateTime?
+    current     Boolean   @default(false)
+    description String?
+
+    profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+}
+
+model Skill {
+    id        String @id @default(uuid())
+    profileId String
+    name      String
+    level     Level  @default(BEGINNER)
+
+    profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+}
+
+model Project {
+    id          String    @id @default(uuid())
+    profileId   String
+    name        String
+    description String?
+    url         String?
+    repoUrl     String?
+    startDate   DateTime
+    endDate     DateTime?
+    current     Boolean   @default(false)
+
+    profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+}
+
+model Session {
+    id           String   @id @default(uuid())
+    userId       String
+    refreshToken String   @unique
+    userAgent    String?
+    ip           String?
+    lastActivity DateTime @default(now())
+    expiresAt    DateTime
+    createdAt    DateTime @default(now())
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model QueryLog {
+    id        String   @id @default(uuid())
+    userId    String
+    endpoint  String
+    method    String
+    createdAt DateTime @default(now())
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum Level {
+    BEGINNER
+    INTERMEDIATE
+    ADVANCED
+    EXPERT
+}
