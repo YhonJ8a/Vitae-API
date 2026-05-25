@@ -48,7 +48,7 @@ export const createEducation = async (req: Request, res: Response): Promise<void
 
 export const editEducation = async (req: Request, res: Response): Promise<void> => {
     try {
-        const education = await updateEducation(req.userId, req.params.id, req.body);
+        const education = await updateEducation(req.userId, req.params.id as string, req.body);
         res.json(successResponse(education, "Education updated"));
     } catch (error: unknown) {
         if (error instanceof Error && error.message === "NOT_FOUND") {
@@ -61,7 +61,7 @@ export const editEducation = async (req: Request, res: Response): Promise<void> 
 
 export const removeEducation = async (req: Request, res: Response): Promise<void> => {
     try {
-        await deleteEducation(req.userId, req.params.id);
+        await deleteEducation(req.userId, req.params.id as string);
         res.json(successResponse(null, "Education deleted"));
     } catch (error: unknown) {
         if (error instanceof Error && error.message === "NOT_FOUND") {
