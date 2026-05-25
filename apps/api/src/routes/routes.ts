@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { env } from "../config/env";
-import authRoutes from "../modules/auth/auth.routes";
-import profileRoutes from "../modules/profile/profile.routes";
+import authRoutes from "../routes/moduleRoutes/auth.routes";
+import profileRoutes from "../routes/moduleRoutes/profile.routes";
 
 const router = Router();
 

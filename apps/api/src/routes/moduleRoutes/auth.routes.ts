@@ -1,7 +1,7 @@
 import { Router } from "express";
-import passport from "./auth.passport";
-import { register, login, refresh, logout } from "./auth.controller";
-import { setAuthCookies } from "./auth.utils";
+import passport from "../../modules/auth/auth.passport";
+import { register, login, refresh, logout } from "../../modules/auth/auth.controller";
+import { setAuthCookies } from "../../modules/auth/auth.utils";
 import { env } from "../../config/env";
 import { authRateLimit } from "../../common/middlewares/rateLimit.middleware";
 
