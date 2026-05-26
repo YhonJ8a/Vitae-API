@@ -10,6 +10,15 @@ jobs:
   lint-and-build:
     runs-on: ubuntu-latest
 
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
+      GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+      GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+      GOOGLE_CALLBACK_URL: ${{ secrets.GOOGLE_CALLBACK_URL }}
+      FRONTEND_URL: ${{ secrets.FRONTEND_URL }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -26,6 +35,14 @@ jobs:
       - name: Run lint
         run: npm run lint
 
+      - name: Generate Prisma Client
+        run: npx prisma generate
+        working-directory: apps/api
+
       - name: Run build
         run: npm run build
+        working-directory: apps/api
+
+      - name: Run tests
+        run: npm run test
         working-directory: apps/api
