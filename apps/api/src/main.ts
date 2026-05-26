@@ -13,7 +13,7 @@ app.use(cookieParser());
 app.use(passport.initialize());
 app.use(globalRateLimit);
 
-app.use('/api', useRoutes);
+app.use("/api", useRoutes);
 
 app.listen(env.port, () => {
     console.log(`Server running on port ${env.port}`);
