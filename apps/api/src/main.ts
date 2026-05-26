@@ -16,5 +16,5 @@ app.use(globalRateLimit);
 app.use('/api', useRoutes);
 
 app.listen(env.port, () => {
-    console.log(`🚀 Server running on port ${env.port}`);
+    console.log(`Server running on port ${env.port}`);
 });
