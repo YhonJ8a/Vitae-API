@@ -4,11 +4,13 @@ import { register, login, refresh, logout } from "../../modules/auth/auth.contro
 import { setAuthCookies } from "../../modules/auth/auth.utils";
 import { env } from "../../config/env";
 import { authRateLimit } from "../../common/middlewares/rateLimit.middleware";
+import { validate } from "../../common/middlewares/validate.middleware";
+import { registerSchema, loginSchema } from "../../modules/auth/auth.schema";
 
 const router = Router();
 
-router.post("/register", authRateLimit, register);
-router.post("/login", authRateLimit, login);
+router.post("/register", authRateLimit, validate(registerSchema), register);
+router.post("/login", authRateLimit, validate(loginSchema), login);
 router.post("/refresh", refresh);
 router.post("/logout", logout);
 
