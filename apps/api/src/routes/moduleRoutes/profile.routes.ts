@@ -9,13 +9,15 @@ import {
     fetchProfile,
     editProfile
 } from "../../modules/profile/profile.controller";
+import { validate } from "../../common/middlewares/validate.middleware";
+import { updateProfileSchema } from "../../modules/profile/profile.schema";
 
 const router = Router();
 
 router.use(authMiddleware);
 
 router.get("/", fetchProfile);
-router.patch("/", editProfile);
+router.patch("/", validate(updateProfileSchema), editProfile);
 
 router.use("/education", useEducation);
 
